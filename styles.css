@@ -1,0 +1,79 @@
+body {
+    font-family: 'Open Sans', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
+    color: #1C2A3A;
+}
+
+header {
+    background-color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 2rem;
+    border-bottom: 2px solid #F57C00;
+}
+
+.logo {
+    height: 50px;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 1.5rem;
+    padding: 0;
+    margin: 0;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #1C2A3A;
+    font-weight: bold;
+}
+
+.hero {
+    background-color: #F57C00;
+    color: white;
+    text-align: center;
+    padding: 4rem 2rem;
+}
+
+.cta-button {
+    background-color: white;
+    color: #F57C00;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    text-decoration: none;
+    font-weight: bold;
+    margin-top: 1rem;
+    display: inline-block;
+}
+
+section {
+    padding: 2rem;
+}
+
+form input,
+form textarea {
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+form button {
+    padding: 0.75rem 2rem;
+    background-color: #1C2A3A;
+    color: white;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+footer {
+    background-color: #1C2A3A;
+    color: white;
+    text-align: center;
+    padding: 1rem;
+}

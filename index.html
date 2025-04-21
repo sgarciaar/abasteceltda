@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Abastece Logística</title>
+  <style>
+    :root {
+      --primary: #f57c00;
+      --dark: #1c2a3a;
+      --light: #f8f9fa;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      background-color: var(--light);
+      color: var(--dark);
+      line-height: 1.6;
+    }
+
+    header {
+      background-color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 2rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .logo {
+      height: 80px;
+      transition: transform 0.3s ease;
+    }
+
+    .logo:hover {
+      transform: scale(1.05) rotate(-1deg);
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 2rem;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: var(--dark);
+      font-weight: bold;
+      transition: color 0.3s;
+    }
+
+    nav ul li a:hover {
+      color: var(--primary);
+    }
+
+    .hero {
+      background: linear-gradient(to right, var(--primary), #ff9800);
+      color: white;
+      text-align: center;
+      padding: 4rem 2rem;
+    }
+
+    .hero h1 {
+      margin-bottom: 1rem;
+      font-size: 2.5rem;
+    }
+
+    .cta-button {
+      background: white;
+      color: var(--primary);
+      padding: 0.8rem 1.5rem;
+      font-weight: bold;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.3s;
+    }
+
+    .cta-button:hover {
+      background: #ffe0b2;
+    }
+
+    section {
+      padding: 3rem 2rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    h2 {
+      color: var(--primary);
+      margin-bottom: 1rem;
+    }
+
+    #tracking input {
+      padding: 0.6rem;
+      width: 70%;
+      max-width: 300px;
+      margin-right: 0.5rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    #tracking button {
+      padding: 0.6rem 1.2rem;
+      background-color: var(--dark);
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    #tracking button:hover {
+      background-color: #333;
+    }
+
+    #orderStatus {
+      margin-top: 1rem;
+      font-weight: bold;
+    }
+
+    form input, form textarea {
+      width: 100%;
+      padding: 0.6rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    form button {
+      padding: 0.75rem 2rem;
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      background-color: var(--dark);
+      color: white;
+      margin-top: 2rem;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <img src="logo.jpg" alt="Abastece Logística" class="logo" />
+    <nav>
+      <ul>
+        <li><a href="#inicio">Inicio</a></li>
+        <li><a href="#quienes-somos">Quiénes Somos</a></li>
+        <li><a href="#mision">Misión</a></li>
+        <li><a href="#tracking">Seguimiento</a></li>
+        <li><a href="#contacto">Contáctenos</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section id="inicio" class="hero">
+    <h1>Conectamos Santiago con la Quinta Región</h1>
+    <a href="#tracking" class="cta-button">Seguimiento de Orden</a>
+  </section>
+
+  <section id="quienes-somos">
+    <h2>¿Quiénes Somos?</h2>
+    <p>Abastece Logística es una empresa dedicada al abastecimiento mayorista desde Santiago hacia la Quinta Región. Entregamos rapidez, eficiencia y compromiso con cada despacho.</p>
+  </section>
+
+  <section id="mision">
+    <h2>Misión</h2>
+    <p>Proveer soluciones logísticas confiables, asegurando que cada cliente reciba sus productos a tiempo y en forma, fortaleciendo así su negocio local.</p>
+  </section>
+
+  <section id="tracking">
+    <h2>Seguimiento de Orden</h2>
+    <p>Ingresa tu número de orden de compra (OC):</p>
+    <input type="text" id="orderInput" placeholder="Ej: OC123456" />
+    <button onclick="trackOrder()">Consultar</button>
+    <p id="orderStatus"></p>
+  </section>
+
+  <section id="contacto">
+    <h2>Contáctenos</h2>
+    <form>
+      <input type="text" placeholder="Nombre" required />
+      <input type="email" placeholder="Correo" required />
+      <textarea placeholder="Mensaje" required></textarea>
+      <button type="submit">Enviar</button>
+    </form>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Abastece Logística. Todos los derechos reservados.</p>
+  </footer>
+
+  <script>
+    function trackOrder() {
+      const input = document.getElementById("orderInput").value.trim();
+      const status = document.getElementById("orderStatus");
+      if (input.toUpperCase().startsWith("OC")) {
+        status.innerText = "✅ Orden " + input + " en tránsito - Entrega en 24 a 48 hrs.";
+        status.style.color = "green";
+      } else {
+        status.innerText = "❌ Número de orden inválido.";
+        status.style.color = "red";
+      }
+    }
+  </script>
+
+</body>
+</html>
