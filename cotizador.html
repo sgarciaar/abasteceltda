@@ -13,6 +13,8 @@
       --primary: #f57c00;
       --dark: #1c2a3a;
       --light: #f8f9fa;
+      --warehouse-color: #2e3a59;
+      --package-color: #d7b899;
     }
 
     body {
@@ -111,21 +113,6 @@
       margin-top: 2rem;
     }
 
-    /* Estilos Cotizador */
-    .header-img {
-      max-height: 300px;
-      object-fit: cover;
-      width: 100%;
-      margin-bottom: 30px;
-      border-radius: 15px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    }
-
-    .card-img-top {
-      height: 180px;
-      object-fit: cover;
-    }
-
     .cart-section {
       margin-top: 50px;
       padding: 30px;
@@ -141,12 +128,42 @@
     .btn-danger {
       border-radius: 50%;
     }
+
+    /* Bodega */
+    .warehouse-container {
+      position: relative;
+      width: 500px;
+      height: 200px;
+      margin: 50px auto;
+      background-color: var(--warehouse-color);
+      border-radius: 15px;
+      padding: 10px;
+      box-sizing: border-box;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      overflow-y: auto;
+    }
+
+    .package {
+      width: 40px;
+      height: 40px;
+      background-color: var(--package-color);
+      border: 2px solid #b48863;
+      border-radius: 5px;
+    }
+
+    @media (max-width: 600px) {
+      .warehouse-container {
+        width: 90%;
+        transform: scale(0.9);
+      }
+    }
   </style>
 </head>
 
 <body>
 
-<!-- Header -->
 <header>
   <img src="https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg" alt="Abastece Logística" class="logo">
   <nav>
@@ -157,23 +174,20 @@
   </nav>
 </header>
 
-<!-- Hero -->
 <div class="hero">
   <h1>Bienvenido a Abastece Logística</h1>
   <p>Tu socio confiable en soluciones de envío</p>
   <a href="#cotizador" class="cta-button">Cotiza tu Envío</a>
 </div>
 
-<!-- Sección Cotizador -->
 <section id="cotizador">
   <h2>Cotiza y Compra tu Envío de Paquetes</h2>
 
-  <!-- Imagen principal -->
-  <img src="https://image.freepik.com/iconos-gratis/transporte-de-paquetes-para-la-entrega_318-61841.jpg" alt="Transporte de Paquetes" class="header-img">
+  <div class="warehouse-container" id="warehouse">
+    <!-- Aquí se llenarán las cajas -->
+  </div>
 
-  <!-- Paquetes para agregar -->
   <div class="row g-4">
-    <!-- Paquete Pequeño -->
     <div class="col-md-4">
       <div class="card">
         <img src="https://static.vecteezy.com/system/resources/previews/014/673/603/original/cardboard-box-icon-cartoon-style-vector.jpg" class="card-img-top" alt="Paquete Pequeño">
@@ -185,7 +199,6 @@
       </div>
     </div>
 
-    <!-- Paquete Mediano -->
     <div class="col-md-4">
       <div class="card">
         <img src="https://static.vecteezy.com/system/resources/previews/014/673/603/original/cardboard-box-icon-cartoon-style-vector.jpg" class="card-img-top" alt="Paquete Mediano">
@@ -197,7 +210,6 @@
       </div>
     </div>
 
-    <!-- Paquete Grande -->
     <div class="col-md-4">
       <div class="card">
         <img src="https://static.vecteezy.com/system/resources/previews/014/673/603/original/cardboard-box-icon-cartoon-style-vector.jpg" class="card-img-top" alt="Paquete Grande">
@@ -210,12 +222,6 @@
     </div>
   </div>
 
-  <!-- Otra imagen de transporte -->
-  <div class="text-center my-5">
-    <img src="https://img.freepik.com/vector-premium/camion-reparto-aislado-cajas-carga-paquetes-dibujos-animados-plana_101884-722.jpg?w=2000" alt="Delivery" class="header-img">
-  </div>
-
-  <!-- Carro de Compra -->
   <div class="cart-section">
     <h3 class="text-center mb-4">Carro de Compra</h3>
 
@@ -229,21 +235,17 @@
   </div>
 </section>
 
-
-
-
-<!-- Footer -->
-<footer>
+<footer id="contacto">
   <p>© 2025 Abastece Logística - Todos los derechos reservados.</p>
 </footer>
 
-<!-- JavaScript Cotizador -->
 <script>
   let cart = [];
 
   function addToCart(name, price) {
     cart.push({ name, price });
     updateCart();
+    addPackage();
   }
 
   function updateCart() {
@@ -261,28 +263,40 @@
       `;
     });
 
-    document.getElementById('total').innerText = 'Total: $' + total;
+    document.getElementById('total').textContent = `Total: $${total}`;
   }
 
   function removeItem(index) {
     cart.splice(index, 1);
     updateCart();
+    removePackage();
   }
 
   function pagar() {
     if (cart.length === 0) {
-      alert('Tu carro está vacío.');
-      return;
+      alert("¡Tu carro está vacío!");
+    } else {
+      alert("Gracias por tu compra de $" + cart.reduce((sum, item) => sum + item.price, 0));
+      cart = [];
+      document.getElementById('warehouse').innerHTML = '';
+      updateCart();
     }
-    const total = cart.reduce((sum, item) => sum + item.price, 0);
-    alert('¡Gracias por tu compra! Total pagado: $' + total);
-    cart = [];
-    updateCart();
+  }
+
+  function addPackage() {
+    const warehouse = document.getElementById('warehouse');
+    const packageDiv = document.createElement('div');
+    packageDiv.className = 'package';
+    warehouse.appendChild(packageDiv);
+  }
+
+  function removePackage() {
+    const warehouse = document.getElementById('warehouse');
+    if (warehouse.lastChild) {
+      warehouse.removeChild(warehouse.lastChild);
+    }
   }
 </script>
-
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>

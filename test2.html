@@ -1,296 +1,134 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Abastece Logística - Cotizador</title>
-
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
+  <meta charset="UTF-8">
+  <title>Camión de Paquetes</title>
   <style>
-    :root {
-      --primary: #f57c00;
-      --dark: #1c2a3a;
-      --light: #f8f9fa;
-    }
-
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      margin: 0;
-      background-color: var(--light);
-      color: var(--dark);
-      line-height: 1.6;
-    }
-
-    header {
-      background-color: white;
+      font-family: Arial, sans-serif;
+      background: #eef2f3;
       display: flex;
-      justify-content: space-between;
+      flex-direction: column;
       align-items: center;
-      padding: 1.5rem 2rem;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      position: sticky;
-      top: 0;
-      z-index: 1000;
+      padding: 20px;
     }
 
-    .logo {
-      height: 80px;
-      transition: transform 0.3s ease;
+    /* Contenedor general del camión */
+    .truck-container {
+      position: relative;
+      width: 400px;
+      height: 200px;
+      margin-top: 50px;
     }
 
-    .logo:hover {
-      transform: scale(1.05) rotate(-1deg);
-    }
-
-    nav ul {
-      list-style: none;
+    /* Parte del camión */
+    .truck {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 400px;
+      height: 120px;
+      background: #4CAF50;
+      border-radius: 10px 10px 0 0;
       display: flex;
-      gap: 2rem;
-      margin: 0;
-      padding: 0;
+      align-items: flex-end;
+      justify-content: flex-start;
+      overflow: hidden;
+      padding: 5px;
+      box-sizing: border-box;
     }
 
-    nav ul li a {
-      text-decoration: none;
-      color: var(--dark);
-      font-weight: bold;
-      transition: color 0.3s;
+    /* Cabina del camión */
+    .cab {
+      position: absolute;
+      bottom: 0;
+      right: -70px;
+      width: 70px;
+      height: 80px;
+      background: #2E7D32;
+      border-radius: 10px;
     }
 
-    nav ul li a:hover {
-      color: var(--primary);
+    /* Ruedas */
+    .wheel {
+      position: absolute;
+      bottom: -20px;
+      width: 40px;
+      height: 40px;
+      background: #333;
+      border-radius: 50%;
     }
 
-    .hero {
-      background: linear-gradient(to right, var(--primary), #ff9800);
+    .wheel.left {
+      left: 60px;
+    }
+
+    .wheel.right {
+      left: 280px;
+    }
+
+    /* Paquete */
+    .package {
+      width: 30px;
+      height: 30px;
+      background: #FFC107;
+      border: 2px solid #FFA000;
+      margin: 2px;
+      box-sizing: border-box;
+      border-radius: 3px;
+    }
+
+    /* Botón */
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 18px;
+      background-color: #1976D2;
       color: white;
-      text-align: center;
-      padding: 4rem 2rem;
-    }
-
-    .hero h1 {
-      margin-bottom: 1rem;
-      font-size: 2.5rem;
-    }
-
-    .cta-button {
-      background: white;
-      color: var(--primary);
-      padding: 0.8rem 1.5rem;
-      font-weight: bold;
       border: none;
       border-radius: 5px;
       cursor: pointer;
-      text-decoration: none;
-      transition: background 0.3s;
     }
 
-    .cta-button:hover {
-      background: #ffe0b2;
+    button:hover {
+      background-color: #1565C0;
     }
 
-    section {
-      padding: 3rem 2rem;
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-
-    h2 {
-      color: var(--primary);
-      margin-bottom: 1rem;
-      text-align: center;
-    }
-
-    footer {
-      text-align: center;
-      padding: 2rem;
-      background-color: var(--dark);
-      color: white;
-      margin-top: 2rem;
-    }
-
-    /* Estilos Cotizador */
-    .header-img {
-      max-height: 300px;
-      object-fit: cover;
+    /* Contenedor de paquetes */
+    .package-area {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-end;
+      height: 100%;
       width: 100%;
-      margin-bottom: 30px;
-      border-radius: 15px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    }
-
-    .card-img-top {
-      height: 180px;
-      object-fit: cover;
-    }
-
-    .cart-section {
-      margin-top: 50px;
-      padding: 30px;
-      background: white;
-      border-radius: 15px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    }
-
-    .btn-primary, .btn-success {
-      border-radius: 20px;
-    }
-
-    .btn-danger {
-      border-radius: 50%;
     }
   </style>
 </head>
-
 <body>
 
-<!-- Header -->
-<header>
-  <img src="https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg" alt="Abastece Logística" class="logo">
-  <nav>
-    <ul>
-      <li><a href="#cotizador">Cotizador</a></li>
-      <li><a href="#contacto">Contacto</a></li>
-    </ul>
-  </nav>
-</header>
+<h1>Cargar Paquetes en el Camión</h1>
 
-<!-- Hero -->
-<div class="hero">
-  <h1>Bienvenido a Abastece Logística</h1>
-  <p>Tu socio confiable en soluciones de envío</p>
-  <a href="#cotizador" class="cta-button">Cotiza tu Envío</a>
+<div class="truck-container">
+  <div class="truck">
+    <div class="package-area" id="packageArea">
+      <!-- Paquetes aparecerán aquí -->
+    </div>
+  </div>
+  <div class="cab"></div>
+  <div class="wheel left"></div>
+  <div class="wheel right"></div>
 </div>
 
-<!-- Sección Cotizador -->
-<section id="cotizador">
-  <h2>Cotiza y Compra tu Envío de Paquetes</h2>
+<button onclick="addPackage()">Agregar Paquete</button>
 
-  <!-- Imagen principal -->
-  <img src="https://images.unsplash.com/photo-1598387851374-b447cc97a7a2" alt="Transporte de Paquetes" class="header-img">
-
-  <!-- Paquetes para agregar -->
-  <div class="row g-4">
-    <!-- Paquete Pequeño -->
-    <div class="col-md-4">
-      <div class="card">
-        <img src="https://images.unsplash.com/photo-1581090700227-1b5b05cf7b4d" class="card-img-top" alt="Paquete Pequeño">
-        <div class="card-body text-center">
-          <h5 class="card-title">Paquete Pequeño</h5>
-          <p class="card-text">Hasta 2kg - Envío Express</p>
-          <button class="btn btn-primary" onclick="addToCart('Paquete Pequeño', 10)">Agregar al Carro ($10)</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Paquete Mediano -->
-    <div class="col-md-4">
-      <div class="card">
-        <img src="https://images.unsplash.com/photo-1605902711622-cfb43c44367d" class="card-img-top" alt="Paquete Mediano">
-        <div class="card-body text-center">
-          <h5 class="card-title">Paquete Mediano</h5>
-          <p class="card-text">Hasta 5kg - Entrega en 24h</p>
-          <button class="btn btn-primary" onclick="addToCart('Paquete Mediano', 20)">Agregar al Carro ($20)</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Paquete Grande -->
-    <div class="col-md-4">
-      <div class="card">
-        <img src="https://images.unsplash.com/photo-1626302407695-d4dc8c59ef16" class="card-img-top" alt="Paquete Grande">
-        <div class="card-body text-center">
-          <h5 class="card-title">Paquete Grande</h5>
-          <p class="card-text">Hasta 10kg - Envío Especial</p>
-          <button class="btn btn-primary" onclick="addToCart('Paquete Grande', 30)">Agregar al Carro ($30)</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Otra imagen de transporte -->
-  <div class="text-center my-5">
-    <img src="https://images.unsplash.com/photo-1571171637578-41bc2dd41cd2" alt="Delivery" class="header-img">
-  </div>
-
-  <!-- Carro de Compra -->
-  <div class="cart-section">
-    <h3 class="text-center mb-4">Carro de Compra</h3>
-
-    <div id="cart" class="mb-3"></div>
-
-    <h4 id="total">Total: $0</h4>
-
-    <div class="text-center mt-4">
-      <button class="btn btn-success btn-lg" onclick="pagar()">Pagar</button>
-    </div>
-  </div>
-</section>
-
-<!-- Sección Contacto -->
-<section id="contacto">
-  <h2>Contacto</h2>
-  <form>
-    <input type="text" placeholder="Tu Nombre" required>
-    <input type="email" placeholder="Tu Correo Electrónico" required>
-    <textarea rows="5" placeholder="Tu Mensaje" required></textarea>
-    <button type="submit">Enviar Mensaje</button>
-  </form>
-</section>
-
-<!-- Footer -->
-<footer>
-  <p>© 2025 Abastece Logística - Todos los derechos reservados.</p>
-</footer>
-
-<!-- JavaScript Cotizador -->
 <script>
-  let cart = [];
-
-  function addToCart(name, price) {
-    cart.push({ name, price });
-    updateCart();
-  }
-
-  function updateCart() {
-    const cartDiv = document.getElementById('cart');
-    cartDiv.innerHTML = '';
-    let total = 0;
-
-    cart.forEach((item, index) => {
-      total += item.price;
-      cartDiv.innerHTML += `
-        <div class="d-flex justify-content-between align-items-center mb-2">
-          <div>${item.name} - $${item.price}</div>
-          <button class="btn btn-danger btn-sm" onclick="removeItem(${index})">×</button>
-        </div>
-      `;
-    });
-
-    document.getElementById('total').innerText = 'Total: $' + total;
-  }
-
-  function removeItem(index) {
-    cart.splice(index, 1);
-    updateCart();
-  }
-
-  function pagar() {
-    if (cart.length === 0) {
-      alert('Tu carro está vacío.');
-      return;
-    }
-    const total = cart.reduce((sum, item) => sum + item.price, 0);
-    alert('¡Gracias por tu compra! Total pagado: $' + total);
-    cart = [];
-    updateCart();
+  function addPackage() {
+    const packageArea = document.getElementById('packageArea');
+    const newPackage = document.createElement('div');
+    newPackage.className = 'package';
+    packageArea.appendChild(newPackage);
   }
 </script>
-
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>
