@@ -1,134 +1,240 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Camión de Paquetes</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Abastece Logística</title>
+
+  <!-- Bootstrap 5 CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
   <style>
+    :root {
+      --primary: #f57c00;
+      --dark: #1c2a3a;
+      --light: #f8f9fa;
+    }
+
     body {
-      font-family: Arial, sans-serif;
-      background: #eef2f3;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 20px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--light);
+      color: var(--dark);
     }
 
-    /* Contenedor general del camión */
-    .truck-container {
-      position: relative;
-      width: 400px;
-      height: 200px;
-      margin-top: 50px;
+    header {
+      background-color: white;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
     }
 
-    /* Parte del camión */
-    .truck {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 400px;
-      height: 120px;
-      background: #4CAF50;
-      border-radius: 10px 10px 0 0;
-      display: flex;
-      align-items: flex-end;
-      justify-content: flex-start;
-      overflow: hidden;
-      padding: 5px;
-      box-sizing: border-box;
-    }
-
-    /* Cabina del camión */
-    .cab {
-      position: absolute;
-      bottom: 0;
-      right: -70px;
-      width: 70px;
+    .logo {
       height: 80px;
-      background: #2E7D32;
-      border-radius: 10px;
+      transition: transform 0.3s ease;
     }
 
-    /* Ruedas */
-    .wheel {
-      position: absolute;
-      bottom: -20px;
-      width: 40px;
-      height: 40px;
-      background: #333;
-      border-radius: 50%;
+    .logo:hover {
+      transform: scale(1.05) rotate(-1deg);
     }
 
-    .wheel.left {
-      left: 60px;
-    }
-
-    .wheel.right {
-      left: 280px;
-    }
-
-    /* Paquete */
-    .package {
-      width: 30px;
-      height: 30px;
-      background: #FFC107;
-      border: 2px solid #FFA000;
-      margin: 2px;
-      box-sizing: border-box;
-      border-radius: 3px;
-    }
-
-    /* Botón */
-    button {
-      margin-top: 20px;
-      padding: 10px 20px;
-      font-size: 18px;
-      background-color: #1976D2;
+    .hero {
+      background: linear-gradient(to right, var(--primary), #ff9800);
       color: white;
+      text-align: center;
+      padding: 4rem 2rem;
+    }
+
+    .cta-button {
+      background: white;
+      color: var(--primary);
+      padding: 0.8rem 1.5rem;
+      font-weight: bold;
       border: none;
       border-radius: 5px;
       cursor: pointer;
+      text-decoration: none;
+      transition: background 0.3s;
     }
 
-    button:hover {
-      background-color: #1565C0;
+    .cta-button:hover {
+      background: #ffe0b2;
     }
 
-    /* Contenedor de paquetes */
-    .package-area {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: flex-end;
-      height: 100%;
-      width: 100%;
+    .cotizador-resultado, .carrito {
+      margin-top: 1rem;
+      font-size: 1rem;
+      background: #fff3e0;
+      padding: 1rem;
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    footer {
+      background-color: var(--dark);
+      color: white;
+      padding: 2rem 0;
+      margin-top: 2rem;
     }
   </style>
 </head>
+
 <body>
 
-<h1>Cargar Paquetes en el Camión</h1>
-
-<div class="truck-container">
-  <div class="truck">
-    <div class="package-area" id="packageArea">
-      <!-- Paquetes aparecerán aquí -->
+  <header class="py-3">
+    <div class="container d-flex justify-content-between align-items-center">
+      <img src="logo.jpg" alt="Abastece Logística" class="logo" />
+      <nav>
+        <ul class="nav">
+          <li class="nav-item"><a class="nav-link text-dark fw-bold" href="#inicio">Inicio</a></li>
+          <li class="nav-item"><a class="nav-link text-dark fw-bold" href="#quienes-somos">Quiénes Somos</a></li>
+          <li class="nav-item"><a class="nav-link text-dark fw-bold" href="#mision">Misión</a></li>
+          <li class="nav-item"><a class="nav-link text-dark fw-bold" href="#tracking">Seguimiento</a></li>
+          <li class="nav-item"><a class="nav-link text-dark fw-bold" href="cotizador.html">Cotizador</a></li>
+          <li class="nav-item"><a class="nav-link text-dark fw-bold" href="#contacto">Contáctenos</a></li>
+        </ul>
+      </nav>
     </div>
-  </div>
-  <div class="cab"></div>
-  <div class="wheel left"></div>
-  <div class="wheel right"></div>
-</div>
+  </header>
 
-<button onclick="addPackage()">Agregar Paquete</button>
+  <section id="inicio" class="hero">
+    <div class="container">
+      <h1 class="mb-4">Conectamos Santiago con la Quinta Región</h1>
+      <a href="#tracking" class="btn cta-button">Seguimiento de Orden</a>
+    </div>
+  </section>
 
-<script>
-  function addPackage() {
-    const packageArea = document.getElementById('packageArea');
-    const newPackage = document.createElement('div');
-    newPackage.className = 'package';
-    packageArea.appendChild(newPackage);
-  }
-</script>
+  <section id="tracking" class="py-5">
+    <div class="container text-center">
+      <h2>Seguimiento de Orden</h2>
+      <p>Ingresa tu número de orden de compra (OC):</p>
+      <div class="d-flex justify-content-center">
+        <input type="text" id="orderInput" class="form-control w-50 me-2" placeholder="Ej: OC123456" />
+        <button class="btn btn-dark" onclick="trackOrder()">Consultar</button>
+      </div>
+      <p id="orderStatus" class="mt-3 fw-bold"></p>
+    </div>
+  </section>
+
+  <section id="quienes-somos" class="py-5">
+    <div class="container">
+      <h2>¿Quiénes Somos?</h2>
+      <p>Abastece Logística es una empresa dedicada al abastecimiento mayorista desde Santiago hacia la Quinta Región. Entregamos rapidez, eficiencia y compromiso con cada despacho.</p>
+    </div>
+  </section>
+
+  <section id="mision" class="py-5">
+    <div class="container">
+      <h2>Misión</h2>
+      <p>Proveer soluciones logísticas confiables, asegurando que cada cliente reciba sus productos a tiempo y en forma, fortaleciendo así su negocio local.</p>
+    </div>
+  </section>
+
+  <section id="cotizador" class="py-5">
+    <div class="container">
+      <h2>Cotizador de Tamaños</h2>
+      <select id="boxSelector" class="form-select" onchange="mostrarResultados()">
+        <option value="">Seleccione un tamaño de caja...</option>
+        <option value="10x10x15,0.0015,1.5">10x10x15 cm</option>
+        <option value="25x20x15,0.0075,7.5">25x20x15 cm</option>
+        <option value="100x100x100,1,1000">100x100x100 cm</option>
+        <option value="30x35x15,0.01575,15.75">30x35x15 cm</option>
+        <option value="45x30x20,0.027,27">45x30x20 cm</option>
+        <option value="25x15x10,0.00375,3.75">25x15x10 cm</option>
+        <option value="30x30x30,0.027,27">30x30x30 cm</option>
+        <option value="30x30x25,0.0225,22.5">30x30x25 cm</option>
+        <option value="40x40x30,0.048,48">40x40x30 cm</option>
+        <option value="15x30x40,0.018,18">15x30x40 cm</option>
+      </select>
+
+      <div id="resultadoCotizador" class="cotizador-resultado" style="display:none;">
+        <p><strong>Dimensiones:</strong> <span id="dimensiones"></span></p>
+        <p><strong>Metros Cúbicos:</strong> <span id="m3"></span> m³</p>
+        <p><strong>Litros:</strong> <span id="litros"></span> L</p>
+        <input type="number" id="cantidad" class="form-control my-3" placeholder="Cantidad" min="1" value="1" />
+        <button class="btn btn-success" onclick="agregarCarrito()">Agregar al Carrito</button>
+      </div>
+
+      <div class="carrito" id="carrito" style="display:none;">
+        <h3>Carrito de Compra</h3>
+        <ul id="listaCarrito" class="list-unstyled"></ul>
+        <p><strong>Total paquetes:</strong> <span id="totalCantidad"></span></p>
+        <button class="btn btn-success" onclick="pagar()">Pagar</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="contacto" class="py-5">
+    <div class="container">
+      <h2>Contáctenos</h2>
+      <form>
+        <input type="text" class="form-control mb-3" placeholder="Nombre" required />
+        <input type="email" class="form-control mb-3" placeholder="Correo" required />
+        <textarea class="form-control mb-3" placeholder="Mensaje" rows="4" required></textarea>
+        <button type="submit" class="btn btn-primary">Enviar</button>
+      </form>
+    </div>
+  </section>
+
+  <footer class="text-center">
+    <div class="container">
+      <p>&copy; 2025 Abastece Logística. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+
+  <!-- Bootstrap Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    function trackOrder() {
+      const input = document.getElementById("orderInput").value.trim();
+      const status = document.getElementById("orderStatus");
+      if (input.toUpperCase().startsWith("OC")) {
+        status.innerText = "✅ Orden " + input + " en tránsito - Entrega en 24 a 48 hrs.";
+        status.style.color = "green";
+      } else {
+        status.innerText = "❌ Número de orden inválido.";
+        status.style.color = "red";
+      }
+    }
+
+    function mostrarResultados() {
+      const select = document.getElementById('boxSelector');
+      const value = select.value;
+      const resultado = document.getElementById('resultadoCotizador');
+
+      if (value) {
+        const [dimensiones, metrosCubicos, litros] = value.split(",");
+        document.getElementById('dimensiones').innerText = dimensiones;
+        document.getElementById('m3').innerText = metrosCubicos;
+        document.getElementById('litros').innerText = litros;
+        resultado.style.display = "block";
+      } else {
+        resultado.style.display = "none";
+      }
+    }
+
+    function agregarCarrito() {
+      const dimensiones = document.getElementById('dimensiones').innerText;
+      const cantidad = parseInt(document.getElementById('cantidad').value);
+      const lista = document.getElementById('listaCarrito');
+      const totalCantidad = document.getElementById('totalCantidad');
+      const carrito = document.getElementById('carrito');
+
+      const li = document.createElement('li');
+      li.textContent = `${cantidad} x Caja ${dimensiones}`;
+      lista.appendChild(li);
+
+      const totalActual = parseInt(totalCantidad.innerText || "0");
+      totalCantidad.innerText = totalActual + cantidad;
+
+      carrito.style.display = "block";
+    }
+
+    function pagar() {
+      alert('Gracias por su compra. Pronto nos pondremos en contacto.');
+    }
+  </script>
 
 </body>
 </html>
