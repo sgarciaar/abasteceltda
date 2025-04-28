@@ -14,7 +14,9 @@
       --dark: #1c2a3a;
       --light: #f8f9fa;
       --warehouse-color: #2e3a59;
-      --package-color: #d7b899;
+      --package-small: #d7b899;  /* Paquete pequeño */
+      --package-medium: #ffcc80; /* Paquete mediano */
+      --package-large: #ff7043;  /* Paquete grande */
     }
 
     body {
@@ -148,7 +150,6 @@
     .package {
       width: 40px;
       height: 40px;
-      background-color: var(--package-color);
       border: 2px solid #b48863;
       border-radius: 5px;
     }
@@ -194,7 +195,7 @@
         <div class="card-body text-center">
           <h5 class="card-title">Paquete Pequeño</h5>
           <p class="card-text">Hasta 2kg - Envío Express</p>
-          <button class="btn btn-primary" onclick="addToCart('Paquete Pequeño', 10)">Agregar al Carro ($10)</button>
+          <button class="btn btn-primary" onclick="addToCart('Paquete Pequeño', 10, 'small')">Agregar al Carro ($10)</button>
         </div>
       </div>
     </div>
@@ -205,7 +206,7 @@
         <div class="card-body text-center">
           <h5 class="card-title">Paquete Mediano</h5>
           <p class="card-text">Hasta 5kg - Entrega en 24h</p>
-          <button class="btn btn-primary" onclick="addToCart('Paquete Mediano', 20)">Agregar al Carro ($20)</button>
+          <button class="btn btn-primary" onclick="addToCart('Paquete Mediano', 20, 'medium')">Agregar al Carro ($20)</button>
         </div>
       </div>
     </div>
@@ -216,7 +217,7 @@
         <div class="card-body text-center">
           <h5 class="card-title">Paquete Grande</h5>
           <p class="card-text">Hasta 10kg - Envío Especial</p>
-          <button class="btn btn-primary" onclick="addToCart('Paquete Grande', 30)">Agregar al Carro ($30)</button>
+          <button class="btn btn-primary" onclick="addToCart('Paquete Grande', 30, 'large')">Agregar al Carro ($30)</button>
         </div>
       </div>
     </div>
@@ -242,10 +243,10 @@
 <script>
   let cart = [];
 
-  function addToCart(name, price) {
-    cart.push({ name, price });
+  function addToCart(name, price, size) {
+    cart.push({ name, price, size });
     updateCart();
-    addPackage();
+    addPackage(size);
   }
 
   function updateCart() {
@@ -283,10 +284,20 @@
     }
   }
 
-  function addPackage() {
+  function addPackage(size) {
     const warehouse = document.getElementById('warehouse');
     const packageDiv = document.createElement('div');
     packageDiv.className = 'package';
+    
+    // Cambiar color según el tamaño
+    if (size === 'small') {
+      packageDiv.style.backgroundColor = 'var(--package-small)';
+    } else if (size === 'medium') {
+      packageDiv.style.backgroundColor = 'var(--package-medium)';
+    } else if (size === 'large') {
+      packageDiv.style.backgroundColor = 'var(--package-large)';
+    }
+
     warehouse.appendChild(packageDiv);
   }
 
