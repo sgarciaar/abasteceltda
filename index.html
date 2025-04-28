@@ -8,6 +8,15 @@
   <!-- Bootstrap 5 CDN -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
+  <!-- Animate.css -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+  <!-- AOS (Animate on Scroll) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" />
+
+  <!-- Swiper.js -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+
   <style>
     :root {
       --primary: #f57c00;
@@ -43,6 +52,7 @@
       color: white;
       text-align: center;
       padding: 4rem 2rem;
+      border-radius: 0 0 30px 30px;
     }
 
     .cta-button {
@@ -51,14 +61,15 @@
       padding: 0.8rem 1.5rem;
       font-weight: bold;
       border: none;
-      border-radius: 5px;
+      border-radius: 30px;
       cursor: pointer;
       text-decoration: none;
-      transition: background 0.3s;
+      transition: transform 0.3s ease, background 0.3s ease;
     }
 
     .cta-button:hover {
       background: #ffe0b2;
+      transform: scale(1.1);
     }
 
     .cotizador-resultado, .carrito {
@@ -66,7 +77,7 @@
       font-size: 1rem;
       background: #fff3e0;
       padding: 1rem;
-      border-radius: 8px;
+      border-radius: 15px;
       text-align: center;
     }
 
@@ -75,13 +86,35 @@
       color: white;
       padding: 2rem 0;
       margin-top: 2rem;
+      border-radius: 30px 30px 0 0;
+    }
+
+    .swiper {
+      width: 100%;
+      padding: 50px 0;
+    }
+
+    .swiper-slide {
+      text-align: center;
+      font-size: 18px;
+      background: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      padding: 20px;
+    }
+
+    .swiper-button-next, .swiper-button-prev {
+      color: var(--primary);
     }
   </style>
 </head>
 
 <body>
 
-  <header class="py-3">
+  <header class="py-3 animate__animated animate__fadeInDown">
     <div class="container d-flex justify-content-between align-items-center">
       <img src="logo.jpg" alt="Abastece Logística" class="logo" />
       <nav>
@@ -97,14 +130,14 @@
     </div>
   </header>
 
-  <section id="inicio" class="hero">
+  <section id="inicio" class="hero animate__animated animate__fadeInDown">
     <div class="container">
       <h1 class="mb-4">Conectamos Santiago con la Quinta Región</h1>
       <a href="#tracking" class="btn cta-button">Seguimiento de Orden</a>
     </div>
   </section>
 
-  <section id="tracking" class="py-5">
+  <section id="tracking" class="py-5" data-aos="fade-up">
     <div class="container text-center">
       <h2>Seguimiento de Orden</h2>
       <p>Ingresa tu número de orden de compra (OC):</p>
@@ -116,55 +149,37 @@
     </div>
   </section>
 
-  <section id="quienes-somos" class="py-5">
+  <section id="quienes-somos" class="py-5" data-aos="fade-up">
     <div class="container">
       <h2>¿Quiénes Somos?</h2>
       <p>Abastece Logística es una empresa dedicada al abastecimiento mayorista desde Santiago hacia la Quinta Región. Entregamos rapidez, eficiencia y compromiso con cada despacho.</p>
     </div>
   </section>
 
-  <section id="mision" class="py-5">
+  <section id="mision" class="py-5" data-aos="fade-up">
     <div class="container">
       <h2>Misión</h2>
       <p>Proveer soluciones logísticas confiables, asegurando que cada cliente reciba sus productos a tiempo y en forma, fortaleciendo así su negocio local.</p>
     </div>
   </section>
 
-  <section id="cotizador" class="py-5">
+  <section class="py-5" data-aos="fade-up">
     <div class="container">
-      <h2>Cotizador de Tamaños</h2>
-      <select id="boxSelector" class="form-select" onchange="mostrarResultados()">
-        <option value="">Seleccione un tamaño de caja...</option>
-        <option value="10x10x15,0.0015,1.5">10x10x15 cm</option>
-        <option value="25x20x15,0.0075,7.5">25x20x15 cm</option>
-        <option value="100x100x100,1,1000">100x100x100 cm</option>
-        <option value="30x35x15,0.01575,15.75">30x35x15 cm</option>
-        <option value="45x30x20,0.027,27">45x30x20 cm</option>
-        <option value="25x15x10,0.00375,3.75">25x15x10 cm</option>
-        <option value="30x30x30,0.027,27">30x30x30 cm</option>
-        <option value="30x30x25,0.0225,22.5">30x30x25 cm</option>
-        <option value="40x40x30,0.048,48">40x40x30 cm</option>
-        <option value="15x30x40,0.018,18">15x30x40 cm</option>
-      </select>
-
-      <div id="resultadoCotizador" class="cotizador-resultado" style="display:none;">
-        <p><strong>Dimensiones:</strong> <span id="dimensiones"></span></p>
-        <p><strong>Metros Cúbicos:</strong> <span id="m3"></span> m³</p>
-        <p><strong>Litros:</strong> <span id="litros"></span> L</p>
-        <input type="number" id="cantidad" class="form-control my-3" placeholder="Cantidad" min="1" value="1" />
-        <button class="btn btn-success" onclick="agregarCarrito()">Agregar al Carrito</button>
-      </div>
-
-      <div class="carrito" id="carrito" style="display:none;">
-        <h3>Carrito de Compra</h3>
-        <ul id="listaCarrito" class="list-unstyled"></ul>
-        <p><strong>Total paquetes:</strong> <span id="totalCantidad"></span></p>
-        <button class="btn btn-success" onclick="pagar()">Pagar</button>
+      <h2>Transportistas Asociados</h2>
+      <div class="swiper mySwiper">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide"><img src="transportista1.jpg" alt="Transportista 1" width="100"></div>
+          <div class="swiper-slide"><img src="transportista2.jpg" alt="Transportista 2" width="100"></div>
+          <div class="swiper-slide"><img src="transportista3.jpg" alt="Transportista 3" width="100"></div>
+          <div class="swiper-slide"><img src="transportista4.jpg" alt="Transportista 4" width="100"></div>
+        </div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
       </div>
     </div>
   </section>
 
-  <section id="contacto" class="py-5">
+  <section id="contacto" class="py-5" data-aos="fade-up">
     <div class="container">
       <h2>Contáctenos</h2>
       <form>
@@ -182,10 +197,28 @@
     </div>
   </footer>
 
-  <!-- Bootstrap Bundle with Popper -->
+  <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
 
   <script>
+    AOS.init();
+
+    var swiper = new Swiper(".mySwiper", {
+      slidesPerView: 3,
+      spaceBetween: 30,
+      autoplay: {
+        delay: 3000,
+        disableOnInteraction: false,
+      },
+      navigation: {
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev",
+      },
+      loop: true,
+    });
+
     function trackOrder() {
       const input = document.getElementById("orderInput").value.trim();
       const status = document.getElementById("orderStatus");
@@ -196,43 +229,6 @@
         status.innerText = "❌ Número de orden inválido.";
         status.style.color = "red";
       }
-    }
-
-    function mostrarResultados() {
-      const select = document.getElementById('boxSelector');
-      const value = select.value;
-      const resultado = document.getElementById('resultadoCotizador');
-
-      if (value) {
-        const [dimensiones, metrosCubicos, litros] = value.split(",");
-        document.getElementById('dimensiones').innerText = dimensiones;
-        document.getElementById('m3').innerText = metrosCubicos;
-        document.getElementById('litros').innerText = litros;
-        resultado.style.display = "block";
-      } else {
-        resultado.style.display = "none";
-      }
-    }
-
-    function agregarCarrito() {
-      const dimensiones = document.getElementById('dimensiones').innerText;
-      const cantidad = parseInt(document.getElementById('cantidad').value);
-      const lista = document.getElementById('listaCarrito');
-      const totalCantidad = document.getElementById('totalCantidad');
-      const carrito = document.getElementById('carrito');
-
-      const li = document.createElement('li');
-      li.textContent = `${cantidad} x Caja ${dimensiones}`;
-      lista.appendChild(li);
-
-      const totalActual = parseInt(totalCantidad.innerText || "0");
-      totalCantidad.innerText = totalActual + cantidad;
-
-      carrito.style.display = "block";
-    }
-
-    function pagar() {
-      alert('Gracias por su compra. Pronto nos pondremos en contacto.');
     }
   </script>
 
